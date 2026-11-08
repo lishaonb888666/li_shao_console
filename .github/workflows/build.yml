@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:  # 这一行就是手动启动按钮
 
 jobs:
   build:
