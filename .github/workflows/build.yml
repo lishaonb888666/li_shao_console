@@ -19,26 +19,16 @@ jobs:
 
       - name: Fetch Zygisk API
         run: |
-          git clone --depth 1 https://github.com/topjohnwu/zygisk-module-sample.git /tmp/zygisk
           mkdir -p zygisk/jni/include
-          cp /tmp/zygisk/module/jni/include/zygisk.hpp zygisk/jni/include/
+          curl -L -o zygisk/jni/include/zygisk.hpp https://raw.githubusercontent.com/topjohnwu/zygisk-module-sample/master/module/jni/include/zygisk.hpp
 
       - name: Build C++ Native
         run: |
           cd zygisk/jni
           ndk-build
 
-      - name: Pack Module
-        run: |
-          mkdir -p out/zygisk
-          # 把你现有的模块文件打包
-          cp -r bin webroot module.prop customize.sh service.sh post-fs-data.sh action.sh out/ || true
-          # 把编译好的 .so 放进去
-          cp zygisk/jni/libs/arm64-v8a/liblishao_zygisk.so out/zygisk/arm64-v8a.so
-          cd out
-          zip -r ../lishao_console_${{ github.ref_name }}.zip *
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
+      - name: Upload SO
+        uses: actions/upload-artifact@v4
         with:
-          files: lishao_console_${{ github.ref_name }}.zip
+          name: lishao-so
+          path: zygisk/jni/libs/arm64-v8a/liblishao_zygisk.so
