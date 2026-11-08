@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - 'v*'
-  workflow_dispatch:  # 这一行就是手动启动按钮
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
       - name: Fetch Zygisk API
         run: |
           mkdir -p zygisk/jni/include
-          curl -L -o zygisk/jni/include/zygisk.hpp https://raw.githubusercontent.com/topjohnwu/zygisk-module-sample/master/module/jni/include/zygisk.hpp
+          curl -L -o zygisk/jni/include/zygisk.hpp https://raw.githubusercontent.com/topjohnwu/zygisk-module-sample/master/module/jni/zygisk.hpp
 
       - name: Build C++ Native
         run: |
