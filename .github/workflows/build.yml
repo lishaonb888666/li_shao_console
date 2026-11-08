@@ -32,4 +32,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lishao-so
-          path: zygisk/jni/libs/arm64-v8a/liblishao_zygisk.so
+          path: "**/*.so"
