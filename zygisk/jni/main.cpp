@@ -1,5 +1,5 @@
 #include <jni.h>
-#include <string>
+#include <string.h>
 #include <zygisk.hpp>
 
 using zygisk::Api;
@@ -14,10 +14,10 @@ public:
 
     void preAppSpecialize(AppSpecializeArgs *args) override {
         const char *process = env->GetStringUTFChars(args->nice_name, nullptr);
-        std::string pkg(process);
-        env->ReleaseStringUTFChars(args->nice_name, process);
-
-        isTarget = (pkg == "com.tencent.tmgp.dfm");
+        if (process) {
+            isTarget = (strcmp(process, "com.tencent.tmgp.dfm") == 0);
+            env->ReleaseStringUTFChars(args->nice_name, process);
+        }
     }
 
     void postAppSpecialize(const AppSpecializeArgs *) override {
